@@ -2,7 +2,7 @@ import express, { Request, Response, ErrorRequestHandler } from 'express'
 const app = express()
 const port = 80
 const request = require('request')
-let Person: { info: string}
+let Person: string
 
 
 app.get('/', (req:Request, res:Response) => {
@@ -10,10 +10,8 @@ app.get('/', (req:Request, res:Response) => {
     if(!error && response.statusCode == 200) {
       body = JSON.parse(body)
       body.results[0]["jobs"] = "fullstack dev at ssense"
-      Person = {
-        info: body
-      }
-      res.send(Person["info"])
+      Person = body
+      res.send(Person)
     }
   })
 })
