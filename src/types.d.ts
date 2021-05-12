@@ -1,6 +1,5 @@
-export let Person: {
+export type Person = {
   results: [{
-      jobs: string,
       gender: string,
       name: {
           title: string,

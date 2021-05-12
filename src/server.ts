@@ -9,8 +9,8 @@ app.get('/', (req:Request, res:Response) => {
   request('https://randomuser.me/api/', function (error:ErrorRequestHandler, response:Response, body:Request["body"]) {
     if(!error && response.statusCode == 200) {
       body = JSON.parse(body)
-      const Person = body
-      res.send(Person)
+      const person:Person = body
+      res.send(person)
     }
   })
 })
