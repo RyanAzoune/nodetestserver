@@ -12,7 +12,6 @@ app.get('/', (req:Request, res:Response) => {
         return;
       }
       const fields = new Set(String(req.query.field).split(","));
-      console.log(fields);
 
       body = JSON.parse(body);
       const person:Person = body.results[0];
