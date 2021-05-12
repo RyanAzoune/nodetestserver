@@ -1,64 +1,64 @@
 export type Person = {
   results: [{
-      gender: string,
+      gender: String,
       name: {
-          title: string,
-          first: string,
-          last: string
+          title: String,
+          first: String,
+          last: String
       },
       location: {
           street: {
-              number: number,
-              name: string
+              number: Number,
+              name: String
           },
-          city: string,
-          state: string,
-          country: string,
-          postcode: number,
+          city: String,
+          state: String,
+          country: String,
+          postcode: Number,
           coordinates: {
-              latitude: number,
-              longitude: number
+              latitude: Number,
+              longitude: Number
           },
           timezone: {
-              offset: number,
-              description: string
+              offset: Number,
+              description: String
           }
       },
-      email: string,
+      email: String,
       login: {
-          uuid: string,
-          username: string,
-          password: string,
-          salt: string,
-          md5: string,
-          sha1: string,
-          sha256: string
+          uuid: String,
+          username: String,
+          password: String,
+          salt: String,
+          md5: String,
+          sha1: String,
+          sha256: String
       },
       dob: {
-          date: string,
-          age: number
+          date: String,
+          age: Number
       },
       registered: {
-          date: string,
-          age: number
+          date: String,
+          age: Number
       },
-      phone: string,
-      cell: string,
+      phone: String,
+      cell: String,
       id: {
-          name: string,
-          value: string
+          name: String,
+          value: String
       },
       picture: {
-          large: string,
-          medium: string,
-          thumbnail: string
+          large: String,
+          medium: String,
+          thumbnail: String
       },
-      nat: string
+      nat: String
   }],
   info: {
-      seed: string,
-      results: number,
-      page: number,
-      version: number
+      seed: String,
+      results: Number,
+      page: Number,
+      version: Number
   }
 }
