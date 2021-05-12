@@ -4,12 +4,12 @@ const app = express()
 const port = 80
 const request = require('request')
 
-
 app.get('/', (req:Request, res:Response) => {
   request('https://randomuser.me/api/', function (error:ErrorRequestHandler, response:Response, body:Request["body"]) {
     if(!error && response.statusCode == 200) {
       body = JSON.parse(body)
-      const person:Person = body
+      const person:Person = body.results[0]
+      person["jobs"] = "fullstack dev at sssense"
       res.send(person)
     }
   })
