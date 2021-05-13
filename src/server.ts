@@ -15,7 +15,7 @@ app.get('/', (req:Request, res:Response) => {
         res.send(person);
         return;
       }
-      const fields = String(req.query.field).split(",");
+      const fields = (req.query.field as string).split(",");
       const filtered = _.pick(person, fields);
       res.send(filtered);
     }
