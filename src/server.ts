@@ -1,30 +1,41 @@
 import express, { Request, Response, ErrorRequestHandler } from 'express';
 import { Person } from './types';
 import fetch from 'node-fetch';
-import omitBy from 'lodash/omitBy';
-import isEmpty from 'lodash/isEmpty';
-import _ from 'lodash';
+import _, { omitBy, isEmpty } from 'lodash';
 const app = express();
 const port = 80;
 
-
 app.get('/', async (req:Request, res:Response) => {
-  const params = new URLSearchParams(omitBy({ gender: req.query.gender, nat: req.query.nat, seed: req.query.seed }, isEmpty));
-  const url = new URL('https://randomuser.me/api/');
-  url.search = new URLSearchParams(params).toString();
+  const params = getParameters(req);
+  const url = getURL(params, req);
   const response = await fetch(url);
   const data = await response.json();
   const person:Person = data.results[0];
-  person["jobs"] = "fullstack dev at ssense";
-  var filtered;
-  if(!req.query.field) {
-   filtered = person;
-  } else {
-    const fields = (req.query.field as string).split(',');
-    filtered = _.pick(person, fields);
+  if(req.query.field && (req.query.field as string).includes("jobs")) {
+    person["jobs"] = "fullstack dev at ssense";
   }
-  res.send(filtered);
+  res.send(person);
 })
+
+// Get parameters from localhost query string
+function getParameters(req:Request) {
+  const gender = req.query.gender as string;
+  const nat = req.query.nat as string;
+  const seed = req.query.seed as string;
+  const params = new URLSearchParams(omitBy({gender: gender, nat: nat, seed: seed}, isEmpty));
+  return params;
+}
+
+// Get randomuserapi URL from parameters and fields specified
+function getURL(params:URLSearchParams, req:Request) {
+  const url = new URL('https://randomuser.me/api/');
+  const queryString = new URLSearchParams(params);
+  if(req.query.field) {
+    queryString.append('inc', req.query.field as string);
+  }
+  url.search = new URLSearchParams(queryString).toString();
+  return url;
+}
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
