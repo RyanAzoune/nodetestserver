@@ -17,7 +17,7 @@ COPY . .
 
 # for typescript
 RUN npm run build
-WORKDIR ./dist
+
 
 EXPOSE 80
 CMD node src/server.js
