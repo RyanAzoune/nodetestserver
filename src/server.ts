@@ -3,8 +3,7 @@ import { Person } from "./types";
 import fetch from "node-fetch";
 import _ from "lodash";
 export const app = express();
-const port = 80;
-
+app.set("port", process.env.PORT || 80);
 
 app.get("/", async (req: Request, res: Response) => {
   const params = getParameters(req);
@@ -12,7 +11,7 @@ app.get("/", async (req: Request, res: Response) => {
   const response = await fetch(url);
   const data = await response.json();
   const person: Person = data.results[0];
-  if(!req.query.field || (req.query.field as string).includes("jobs")) {
+  if (!req.query.field || (req.query.field as string).includes("jobs")) {
     person["jobs"] = "fullstack dev at ssense";
     res.send(person);
     return;
@@ -40,6 +39,6 @@ function getURL(params: URLSearchParams, req: Request) {
   return url;
 }
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(app.get("port"), () => {
+  console.log(`Example app listening at http://localhost:${app.get("port")}`);
 });
