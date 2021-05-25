@@ -2,8 +2,11 @@ import express, { Request, Response, ErrorRequestHandler } from "express";
 import { Person } from "./types";
 import fetch from "node-fetch";
 import _ from "lodash";
+import dotenv from "dotenv";
+
 export const app = express();
-app.set("port", process.env.PORT || 80);
+dotenv.config();
+app.set("port", process.env.APP_PORT);
 
 app.get("/", async (req: Request, res: Response) => {
   const params = getParameters(req);

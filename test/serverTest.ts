@@ -2,10 +2,12 @@ import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import request from "supertest";
 import { app } from "../src/server";
+import dotenv from "dotenv";
 
+dotenv.config();
+app.set("port", process.env.TEST_PORT);
 chai.should();
 chai.use(chaiHttp);
-app.set("port", process.env.PORT || 3000);
 
 describe("Server API", () => {
   // Case where we have no fields or parameters specified
@@ -13,7 +15,7 @@ describe("Server API", () => {
     const res = await request(app).get("/");
     expect(res.status).to.equal(200);
     expect(res.body).not.to.be.empty;
-    expect(res.body).to.be.a("object"); // Person doesn't work but res.send sends a Person object ??
+    expect(res.body).to.be.an("object");
     expect(res.body).to.have.all.keys(
       "jobs",
       "cell",
@@ -36,7 +38,7 @@ describe("Server API", () => {
     const res = await request(app).get("?field=jobs,email,gender,location");
     expect(res.status).to.equal(200);
     expect(res.body).not.to.be.empty;
-    expect(res.body).to.be.a("object");
+    expect(res.body).to.be.an("object");
     expect(res.body).to.have.keys("jobs", "email", "gender", "location");
     expect(res.body).to.not.have.keys(
       "cell",
@@ -56,7 +58,7 @@ describe("Server API", () => {
     const res = await request(app).get("?gender=female");
     expect(res.status).to.equal(200);
     expect(res.body).not.to.be.empty;
-    expect(res.body).to.be.a("object");
+    expect(res.body).to.be.an("object");
     expect(res.body).to.have.all.keys(
       "jobs",
       "cell",
@@ -82,7 +84,7 @@ describe("Server API", () => {
     );
     expect(res.status).to.equal(200);
     expect(res.body).not.to.be.empty;
-    expect(res.body).to.be.a("object");
+    expect(res.body).to.be.an("object");
     expect(res.body).to.have.all.keys("jobs", "email", "gender", "location");
     expect(res.body).to.include({ gender: "female" });
     expect(res.body).to.not.have.keys(
