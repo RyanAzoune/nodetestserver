@@ -17,6 +17,7 @@ COPY . .
 
 # for typescript
 RUN npm run build
+WORKDIR ./dist
 
 
 EXPOSE 80
