@@ -1,37 +1,39 @@
-import express, { Request, Response, ErrorRequestHandler } from 'express';
-import { Person } from './types';
-import fetch from 'node-fetch';
-import _, { omitBy, isEmpty } from 'lodash';
+import express, { Request, Response, ErrorRequestHandler } from "express";
+import { Person } from "./types";
+import fetch from "node-fetch";
+import _, { omitBy, isEmpty } from "lodash";
 const app = express();
 const port = 80;
 
-app.get('/', async (req:Request, res:Response) => {
+app.get("/", async (req: Request, res: Response) => {
   const params = getParameters(req);
   const url = getURL(params, req);
   const response = await fetch(url);
   const data = await response.json();
-  const person:Person = data.results[0];
-  if(req.query.field && (req.query.field as string).includes("jobs")) {
+  const person: Person = data.results[0];
+  if (req.query.field && (req.query.field as string).includes("jobs")) {
     person["jobs"] = "fullstack dev at ssense";
   }
   res.send(person);
-})
+});
 
 // Get parameters from localhost query string
-function getParameters(req:Request) {
+function getParameters(req: Request) {
   const gender = req.query.gender as string;
   const nat = req.query.nat as string;
   const seed = req.query.seed as string;
-  const params = new URLSearchParams(omitBy({gender: gender, nat: nat, seed: seed}, isEmpty));
+  const params = new URLSearchParams(
+    omitBy({ gender: gender, nat: nat, seed: seed }, isEmpty)
+  );
   return params;
 }
 
 // Get randomuserapi URL from parameters and fields specified
-function getURL(params:URLSearchParams, req:Request) {
-  const url = new URL('https://randomuser.me/api/');
+function getURL(params: URLSearchParams, req: Request) {
+  const url = new URL("https://randomuser.me/api/");
   const queryString = new URLSearchParams(params);
-  if(req.query.field) {
-    queryString.append('inc', req.query.field as string);
+  if (req.query.field) {
+    queryString.append("inc", req.query.field as string);
   }
   url.search = new URLSearchParams(queryString).toString();
   return url;
@@ -39,4 +41,4 @@ function getURL(params:URLSearchParams, req:Request) {
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-})
+});
